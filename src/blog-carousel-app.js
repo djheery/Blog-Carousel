@@ -3,7 +3,10 @@ const BlogCarouselApp = (() => {
   const loadEventListeners = () => {  
     window.addEventListener('DOMContentLoaded', e => {
       const data = CarouselData.getData()
-      BlogCarouselUI.populateCarousel(data)
+      for(let i = 0; i < ui.tracks.length; i++) {
+        console.log(data[i])
+        BlogCarouselUI.populateCarousel(data[i], ui.tracks[i])
+      }
     })
 
     ui.prevBtns.forEach(i =>{
@@ -19,7 +22,7 @@ const BlogCarouselApp = (() => {
 
   return {
     init: () => {
-      CarouselData.produceData()
+      CarouselData.produceData(BlogCarouselUI.getSelectors().tracks)
       loadEventListeners() 
     }
   }

@@ -11,10 +11,10 @@ const BlogCarouselUI = (() => {
     getSelectors: () => {
       return selectors
     },
-    populateCarousel: (data) => {
-      selectors.track.innerHTML = " "
+    populateCarousel: (data, track) => {
+      track.innerHTML = " "
       for(let i = 0; i < data.length; i++) {
-        selectors.track.innerHTML += `
+        track.innerHTML += `
           <div class="blog-carousel__slide">
           <div class="slide__wrapper">
             <div class="slide__img">
@@ -28,16 +28,20 @@ const BlogCarouselUI = (() => {
         </div>
         `
       }
-      const slides = Array.from(selectors.track.children);
+      const slides = Array.from(track.children);
+      let count = 0;
       if(slides[0]) slides[0].classList.add('current-slide');
-      slides.forEach(BlogCarouselUI.setSlidePosition);
+      slides.forEach(s => {
+        BlogCarouselUI.setSlidePosition(s, count, track)
+        count ++
+      });
     },
     getSlideWidth: (slideArr) => {
       let slideWidth = slideArr[0].getBoundingClientRect().width;
       return slideWidth
     },
-    setSlidePosition: (slides, index) => {
-      const slideArr = Array.from(selectors.track.children);
+    setSlidePosition: (slides, index, track) => {
+      const slideArr = Array.from(track.children);
       let slideWidth = BlogCarouselUI.getSlideWidth(slideArr)
       slides.style.left = slideWidth * index + 'px'
     },
