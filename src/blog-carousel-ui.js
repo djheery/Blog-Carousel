@@ -80,7 +80,6 @@ const BlogCarouselUI = (() => {
       const nextIndex = slides.findIndex(slide => slide === nextSlide)
       
       if(nextIndex !== -1) {
-        console.log(e.target)
         BlogCarouselUI.moveToSlide(track, currentSlide, nextSlide)
         BlogCarouselUI.hideShowArrows(slides, e.target.parentElement.previousElementSibling, e.target.parentElement, nextIndex)
       }
@@ -88,7 +87,6 @@ const BlogCarouselUI = (() => {
     filterSlides: (input, e, id, track) => {
       input.classList.remove('input-error')
       const data = CarouselData.getData();
-      console.log(data[id])
       const v = e.target.value.toLowerCase();
       if(v.length < 5 || v === '') {
         BlogCarouselUI.populateCarousel(data[id], track);
