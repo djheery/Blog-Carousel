@@ -62,35 +62,40 @@ const BlogCarouselUI = (() => {
         nextBtn.classList.remove('is-hidden');
       }    
     },
-    slidePrevious: () => {
-      const slides = Array.from(selectors.track.children);
-      const currentSlide = document.querySelector('.current-slide');
+    slidePrevious: (track, e) => {
+      const slides = Array.from(track.children);
+      const currentSlide = track.querySelector('.current-slide');
       const prevSlide = currentSlide.previousElementSibling;
       const prevIndex = slides.findIndex(slide => slide === prevSlide)
-    
-      BlogCarouselUI.moveToSlide(selectors.track, currentSlide, prevSlide)
-      BlogCarouselUI.hideShowArrows(slides, selectors.prevBtn, selectors.nextBtn, prevIndex)
+
+      if(prevIndex !== -1) {
+        BlogCarouselUI.moveToSlide(track, currentSlide, prevSlide)
+        BlogCarouselUI.hideShowArrows(slides, e.target.parentElement, e.target.parentElement.nextElementSibling, prevIndex)
+      }      
     },
-    slideNext: () => {
-      const slides = Array.from(selectors.track.children);
-      const currentSlide = document.querySelector('.current-slide');
+    slideNext: (track, e) => {
+      const slides = Array.from(track.children);
+      const currentSlide = track.querySelector('.current-slide');
       const nextSlide = currentSlide.nextElementSibling;
       const nextIndex = slides.findIndex(slide => slide === nextSlide)
-    
-      BlogCarouselUI.moveToSlide(selectors.track, currentSlide, nextSlide)
-      BlogCarouselUI.hideShowArrows(slides, selectors.prevBtn, selectors.nextBtn, nextIndex)
+      
+      if(nextIndex !== -1) {
+        console.log(e.target)
+        BlogCarouselUI.moveToSlide(track, currentSlide, nextSlide)
+        BlogCarouselUI.hideShowArrows(slides, e.target.parentElement.previousElementSibling, e.target.parentElement, nextIndex)
+      }
     },
-    filterSlides: (e) => {
-      const input = document.querySelector('.blog-filter__search-bar');
+    filterSlides: (input, e, id, track) => {
       input.classList.remove('input-error')
       const data = CarouselData.getData();
+      console.log(data[id])
       const v = e.target.value.toLowerCase();
       if(v.length < 5 || v === '') {
-        BlogCarouselUI.populateCarousel(data);
+        BlogCarouselUI.populateCarousel(data[id], track);
         return
       }
       const slidesToDisplay = []
-      data.filter(d => {
+      data[id].filter(d => {
         if(d.slideText.toLowerCase().indexOf(v) !== -1) {
           if(slidesToDisplay.indexOf(d) === -1) {
             slidesToDisplay.push(d);
@@ -98,10 +103,10 @@ const BlogCarouselUI = (() => {
         }
       })
       if(slidesToDisplay.length > 0) {
-        BlogCarouselUI.populateCarousel(slidesToDisplay);
+        BlogCarouselUI.populateCarousel(slidesToDisplay, track);
       }
       if(slidesToDisplay.length === 0) {
-        BlogCarouselUI.populateCarousel(data);
+        BlogCarouselUI.populateCarousel(data[id], track);
         BlogCarouselUI.inputError(input)
         return
       }

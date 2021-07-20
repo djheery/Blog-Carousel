@@ -4,19 +4,22 @@ const BlogCarouselApp = (() => {
     window.addEventListener('DOMContentLoaded', e => {
       const data = CarouselData.getData()
       for(let i = 0; i < ui.tracks.length; i++) {
-        console.log(data[i])
         BlogCarouselUI.populateCarousel(data[i], ui.tracks[i])
       }
     })
-
     ui.prevBtns.forEach(i =>{
-      i.addEventListener('click', BlogCarouselUI.slidePrevious)
+      const track = i.nextElementSibling.nextElementSibling.firstElementChild
+      i.addEventListener('click', e => BlogCarouselUI.slidePrevious(track, e))
     })
     ui.nextBtns.forEach(i =>{
-      i.addEventListener('click', BlogCarouselUI.slideNext)
+      const track = i.nextElementSibling.firstElementChild
+      i.addEventListener('click', e => BlogCarouselUI.slideNext(track, e))
     })
     ui.filters.forEach(i =>{
-      i.addEventListener('keyup', BlogCarouselUI.filterSlides)
+      const input = i.parentElement
+      const dataID = input.parentElement.nextElementSibling.dataset.trackId
+      const track = input.parentElement.nextElementSibling.children[2].firstElementChild
+      i.addEventListener('keyup', e => BlogCarouselUI.filterSlides(input, e, dataID, track))
     })
   }
 

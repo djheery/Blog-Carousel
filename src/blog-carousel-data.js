@@ -4,6 +4,8 @@ const CarouselData = (() => {
   return {
     produceData: (track) => {
       for(let i = 0; i < track.length; i++) {
+        track[i].parentElement.parentElement.dataset.trackId = i
+        track[i].dataset.trackId = i
         data.push([])
         let slideHeadingArr = []
         let slideImgArr = []       
@@ -13,7 +15,6 @@ const CarouselData = (() => {
           data[i].push({slideText: slideHeadingArr[j].textContent, slideImgSrc: slideImgArr[j].src})
         }
       }        
-      console.log(data)
     },
     getData: () => {
       return data
