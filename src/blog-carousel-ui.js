@@ -16,17 +16,20 @@ const BlogCarouselUI = (() => {
       for(let i = 0; i < data.length; i++) {
         track.innerHTML += `
           <div class="blog-carousel__slide">
-          <div class="slide__wrapper">
-            <div class="slide__img">
-              <img src="${data[i].slideImgSrc}" class="slide__inner-img" alt="${data[i].slideText}">
-            </div>
+            r<div class="slide__wrapper">
+              <div class="slide__img">
+                <a href="${data[i].slideLink}" target="_blank">
+                  <img src="${data[i].slideImgSrc}" class="slide__inner-img" alt="${data[i].slideText}">
+                </a>
+              </div>
             <div>
-              <p class="slide__heading">${data[i].slideText}</p>
+              <a href="${data[i].slideLink}" target="_blank" class="slide__heading">${data[i].slideText}</a>
             </div>
             <div class="slide__seperator"></div>
           </div>
         </div>
         `
+        
       }
       const slides = Array.from(track.children);
       let count = 0;
@@ -88,7 +91,7 @@ const BlogCarouselUI = (() => {
       input.classList.remove('input-error')
       const data = CarouselData.getData();
       const v = e.target.value.toLowerCase();
-      if(v.length < 5 || v === '') {
+      if(v.length < 3|| v === '') {
         BlogCarouselUI.populateCarousel(data[id], track);
         return
       }

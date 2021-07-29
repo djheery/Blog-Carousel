@@ -8,13 +8,20 @@ const CarouselData = (() => {
         track[i].dataset.trackId = i
         data.push([])
         let slideHeadingArr = []
-        let slideImgArr = []       
+        let slideImgArr = []
+        let slideLinkArr = []       
         slideHeadingArr = Array.from(track[i].querySelectorAll('.slide__heading'));
         slideImgArr = Array.from(track[i].querySelectorAll('.slide__inner-img'));
+        slideLinkArr = Array.from(track[i].querySelectorAll('.slide__img'))
+        console.log(slideLinkArr)
         for(let j = 0; j < slideHeadingArr.length; j++) {
-          data[i].push({slideText: slideHeadingArr[j].textContent, slideImgSrc: slideImgArr[j].src})
+          data[i].push({
+            slideText: slideHeadingArr[j].textContent, 
+            slideImgSrc: slideImgArr[j].src,
+            slideLink: slideLinkArr[j].firstElementChild.href
+          })
         }
-      }        
+      }  
     },
     getData: () => {
       return data
